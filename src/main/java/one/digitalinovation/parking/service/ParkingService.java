@@ -1,38 +1,49 @@
 package one.digitalinovation.parking.service;
 
-import one.digitalinovation.parking.model.Parking;
+
+import lombok.RequiredArgsConstructor;
+import one.digitalinovation.parking.dto.ParkingDTO;
+import one.digitalinovation.parking.repository.ParkingRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
+@RequiredArgsConstructor
 public class ParkingService {
 
-    private static Map<String, Parking> parkingMap = new HashMap<>();
+    public final ParkingRepository parkingRepository;
 
-    static {
-         var id = getUUID();
-        var id1 = getUUID();
-        Parking parking =  new Parking(id, "DMS-1111","SC","CELTA","PRETO");
-        Parking parking1 =  new Parking(id1, "WAS-2312","PE","UNO","MARROM");
-        parkingMap.put(id, parking);
-        parkingMap.put(id1, parking);
+
+    public void save(ParkingDTO parkingDTO){
+        parkingRepository.save(ParkingDTO.of(parkingDTO));
     }
 
-    private static String getUUID() {
-
-        return UUID.randomUUID().toString().replace("-","");
+    public Optional<ParkingDTO> findById(Long id){
+        return ParkingDTO.of(parkingRepository.findById(id));
     }
 
-    public List<Parking> findAll(){
-        return parkingMap.values().stream().collect(Collectors.toList());
+    public Optional<List<ParkingDTO>> findAll(){
+        return Optional.of(ParkingDTO.of(parkingRepository.findAll()));
     }
 
-    public Parking findById(String id){return parkingMap.get(id);}
+    public Page<ParkingDTO> findAll(Integer page, Integer size){
+        return new PageImpl<>(ParkingDTO.of(parkingRepository.findAll()), PageRequest.of(page,size),size);
+    }
 
+    public Optional<ParkingDTO> update(Long id, ParkingDTO parkingDTO){
+        parkingDTO.setId(id);
+        return  Optional.of(ParkingDTO.of(parkingRepository.save(ParkingDTO.of(parkingDTO))));
+    }
 
-
+    public void delete(Long id){
+        parkingRepository.deleteById(id);
+    }
 
 
 }

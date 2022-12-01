@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Builder
 public class ParkingDTO {
 
-    private String id;
+    private Long id;
     private String license;
     private String state;
     private String model;
@@ -46,7 +46,7 @@ public class ParkingDTO {
                 .build();
     }
 
-    public Optional<ParkingDTO> of(Optional<Parking> parking){
+    public static Optional<ParkingDTO> of(Optional<Parking> parking){
         return parking.stream().map(ParkingDTO::of).findAny();
     }
 
