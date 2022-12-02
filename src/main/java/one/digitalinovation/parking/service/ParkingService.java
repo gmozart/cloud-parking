@@ -19,7 +19,6 @@ public class ParkingService {
 
     public final ParkingRepository parkingRepository;
 
-
     public void save(ParkingDTO parkingDTO){
         parkingRepository.save(ParkingDTO.of(parkingDTO));
     }
