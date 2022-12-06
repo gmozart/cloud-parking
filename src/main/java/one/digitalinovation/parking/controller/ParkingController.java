@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import one.digitalinovation.parking.dto.ParkingDTO;
 import one.digitalinovation.parking.exception.MtpNotFoundException;
+import one.digitalinovation.parking.model.Parking;
 import one.digitalinovation.parking.service.ParkingService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -50,6 +52,12 @@ public class ParkingController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         parkingService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<Optional<ParkingDTO>> checkout(@PathVariable Long id, @RequestBody ParkingDTO parkingDTO){
+        Optional<ParkingDTO> parkingDto = parkingService.checkOut(id, parkingDTO);
+        return  ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 

@@ -53,4 +53,5 @@ public class ParkingDTO {
     public static List<ParkingDTO> of(List<Parking> parkingList){
         return  parkingList.stream().map(ParkingDTO::of).collect(Collectors.toList());
     }
+
 }
