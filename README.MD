@@ -3,7 +3,7 @@
 <p>
 This project was developed at the request of the DIO course platform, in order to improve my skills. The project is a parking lot that registers the vehicles, informing their characteristics and the time they chose to stay, generating a debt balance to be paid for the time the vehicle was parked.
 </p>
-<h2>🛑 Pré-Requisitos</h2>
+<h2>🛑 Requirements </h2>
 
 <p>
 ✅ Java version 17<br>
