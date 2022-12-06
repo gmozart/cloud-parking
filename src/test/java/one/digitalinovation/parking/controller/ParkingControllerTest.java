@@ -46,6 +46,6 @@ class ParkingControllerTest {
     @Test
     void checkout() {
 
-        
+
     }
 }
