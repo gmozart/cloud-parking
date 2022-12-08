@@ -28,34 +28,34 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ParkingDTO> findById(@PathVariable Long id){
         return ResponseEntity.ok(parkingService.findById(id).orElseThrow(CdpNotFoundException::new));
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping("/all")
     public ResponseEntity<List<ParkingDTO>> findAll(){
         return ResponseEntity.ok(parkingService.findAll().orElseThrow(CdpNotFoundException::new));
     }
 
-    @GetMapping(value = "/")
+    @GetMapping("/")
     public ResponseEntity<Page<ParkingDTO>> findAll(@RequestParam Integer page, @RequestParam Integer size){
         return ResponseEntity.ok(parkingService.findAll(page, size));
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ParkingDTO> update(@PathVariable Long id, @RequestBody ParkingDTO parkingDTO){
         return ResponseEntity.ok(parkingService.update(id, parkingDTO).orElseThrow(CdpNotFoundException::new));
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         parkingService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Optional<ParkingDTO>> checkout(@PathVariable Long id, @RequestBody ParkingDTO parkingDTO){
+    @PutMapping("/{id}")
+    public ResponseEntity<ParkingDTO> checkout(@PathVariable Long id, @RequestBody ParkingDTO parkingDTO){
         parkingDTO.setId(id);
         findById(id);
         parkingDTO.setExitDate(LocalDateTime.now());
