@@ -4,13 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class MtpNotFoundException extends RuntimeException {
+public class CdpNotFoundException extends RuntimeException {
 
-     public MtpNotFoundException(){
+     public CdpNotFoundException(){
          super("Resource not found");
      }
 
-     public MtpNotFoundException(String exception){
+     public CdpNotFoundException(String exception){
          super(exception);
      }
 

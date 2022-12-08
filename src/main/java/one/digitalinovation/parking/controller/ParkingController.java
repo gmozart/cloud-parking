@@ -3,21 +3,21 @@ package one.digitalinovation.parking.controller;
 import lombok.RequiredArgsConstructor;
 
 import one.digitalinovation.parking.dto.ParkingDTO;
-import one.digitalinovation.parking.exception.MtpNotFoundException;
-import one.digitalinovation.parking.model.Parking;
+import one.digitalinovation.parking.exception.CdpNotFoundException;
 import one.digitalinovation.parking.service.ParkingService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/parking")
+@RequestMapping("/parking")
 public class ParkingController {
 
     private final ParkingService parkingService;
@@ -30,12 +30,12 @@ public class ParkingController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ParkingDTO> findById(@PathVariable Long id){
-        return ResponseEntity.ok(parkingService.findById(id).orElseThrow(MtpNotFoundException::new));
+        return ResponseEntity.ok(parkingService.findById(id).orElseThrow(CdpNotFoundException::new));
     }
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<ParkingDTO>> findAll(){
-        return ResponseEntity.ok(parkingService.findAll().orElseThrow(MtpNotFoundException::new));
+        return ResponseEntity.ok(parkingService.findAll().orElseThrow(CdpNotFoundException::new));
     }
 
     @GetMapping(value = "/")
@@ -45,7 +45,7 @@ public class ParkingController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<ParkingDTO> update(@PathVariable Long id, @RequestBody ParkingDTO parkingDTO){
-        return ResponseEntity.ok(parkingService.update(id, parkingDTO).orElseThrow(MtpNotFoundException::new));
+        return ResponseEntity.ok(parkingService.update(id, parkingDTO).orElseThrow(CdpNotFoundException::new));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -54,10 +54,12 @@ public class ParkingController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Optional<ParkingDTO>> checkout(@PathVariable Long id, @RequestBody ParkingDTO parkingDTO){
-        Optional<ParkingDTO> parkingDto = parkingService.checkOut(id, parkingDTO);
-        return  ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        parkingDTO.setId(id);
+        findById(id);
+        parkingDTO.setExitDate(LocalDateTime.now());
+        return  ResponseEntity.ok(parkingService.update(id, parkingDTO));
     }
 
 
