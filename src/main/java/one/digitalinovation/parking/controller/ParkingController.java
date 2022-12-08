@@ -55,7 +55,7 @@ public class ParkingController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/checkout/{id}")
     public ResponseEntity<Void> checkout(@PathVariable Long id){
         parkingService.checkOut(id);
         return  ResponseEntity.noContent().build();

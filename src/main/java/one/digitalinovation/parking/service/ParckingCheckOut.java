@@ -1,6 +1,5 @@
 package one.digitalinovation.parking.service;
 
-import one.digitalinovation.parking.dto.ParkingDTO;
 import one.digitalinovation.parking.model.Parking;
 
 import java.time.LocalDateTime;
