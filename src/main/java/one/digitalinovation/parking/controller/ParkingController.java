@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import one.digitalinovation.parking.dto.ParkingDTO;
 import one.digitalinovation.parking.exception.CdpNotFoundException;
+import one.digitalinovation.parking.model.Parking;
 import one.digitalinovation.parking.service.ParkingService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -55,11 +56,9 @@ public class ParkingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParkingDTO> checkout(@PathVariable Long id, @RequestBody ParkingDTO parkingDTO){
-        parkingDTO.setId(id);
-        findById(id);
-        parkingDTO.setExitDate(LocalDateTime.now());
-        return  ResponseEntity.ok(parkingService.update(id, parkingDTO));
+    public ResponseEntity<Void> checkout(@PathVariable Long id){
+        parkingService.checkOut(id);
+        return  ResponseEntity.noContent().build();
     }
 
 
